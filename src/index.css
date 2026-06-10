@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    /* Prevent iOS bumping font sizes in landscape */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  /* Native <button> defaults to the arrow cursor — make intent clear. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
+  /* Reduce 300ms tap delay + accidental double-tap zoom on controls. */
+  button,
+  a,
+  [role='button'],
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+
+  /* Honor the OS "reduce motion" setting for everything, including CSS. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    @apply bg-ink-950 text-mist font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tightest text-white;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    @apply bg-flame text-white;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-ink-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-600 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-flame;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-flame ring-offset-2 ring-offset-ink-950;
+  }
+}
+
+@layer components {
+  .container-px {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  .glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  .btn-flame {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-flame px-7 py-3.5
+      font-display text-sm font-bold uppercase tracking-wide text-white
+      transition-[transform,background-color,box-shadow] duration-300
+      hover:-translate-y-0.5 hover:bg-flame-600 hover:shadow-[0_12px_40px_-12px_rgba(255,90,31,0.7)]
+      active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15
+      px-7 py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white
+      transition-colors duration-300 hover:border-white/40 hover:bg-white/5;
+  }
+
+  .field {
+    /* 16px (text-base) on mobile prevents iOS Safari auto-zoom on focus;
+       drops to 14px from sm: up where zoom isn't a concern. */
+    @apply w-full rounded-xl border border-white/10 bg-ink-800/70 px-4 py-3 text-base text-white
+      placeholder:text-mist-muted transition-colors duration-200
+      focus:border-flame/60 focus:bg-ink-800 sm:text-sm;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-mist-muted;
+  }
+
+  .field-error {
+    @apply mt-1.5 text-xs font-medium text-red-400;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-flame;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Initial state for GSAP reveals — prevents flash of unstyled content. */
+  .gsap-pre {
+    opacity: 0;
+  }
+  .grain {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+}
