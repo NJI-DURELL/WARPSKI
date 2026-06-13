@@ -6,11 +6,11 @@ import { useCartStore } from '@/store/cartStore';
 import { Logo } from '@/components/ui/Logo';
 
 const NAV = [
-  { to: '/catalogue', label: 'Catalogue' },
+  { to: '/catalogue',   label: 'Catalogue' },
+  { to: '/fairly-used', label: 'Fairly Used' },
   { to: '/accessories', label: 'Accessories' },
-  { to: '/customize', label: 'Customize' },
-  { to: '/contact', label: 'Contact' },
-  { to: '/account', label: 'Owner Zone' },
+  { to: '/contact',     label: 'Contact' },
+  { to: '/account',     label: 'Owner Zone' },
 ];
 
 export function Navbar() {

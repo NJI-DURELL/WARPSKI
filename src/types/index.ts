@@ -1,15 +1,22 @@
-/** WarpSki sells jetskis only — organised by riding style — plus accessories. */
-export type Category = 'performance' | 'recreation' | 'accessories';
+export type Category = 'performance' | 'recreation' | 'accessories' | 'second_hand';
 
 export const CATEGORY_LABELS: Record<Category, string> = {
   performance: 'Performance',
   recreation: 'Recreation',
   accessories: 'Accessories',
+  second_hand: 'Fairly Used',
 };
 
 export interface ProductSpec {
   label: string;
   value: string;
+}
+
+export interface Review {
+  author: string;
+  rating: number;
+  comment: string;
+  date: string;
 }
 
 export interface Product {
@@ -20,16 +27,15 @@ export interface Product {
   tagline: string;
   description: string;
   price: number;
-  /** Optional sale price; when present it overrides `price` at checkout. */
   sale_price?: number | null;
   currency: string;
   images: string[];
   specs: ProductSpec[];
-  /** Hardware/feature pins shown on the product art. */
   highlights: string[];
   in_stock: boolean;
   featured?: boolean;
   rating?: number;
+  reviews?: Review[];
   created_at?: string;
 }
 

@@ -11,7 +11,7 @@ create extension if not exists "pgcrypto";
 do $$
 begin
   if not exists (select 1 from pg_type where typname = 'product_category') then
-    create type product_category as enum ('jetboats', 'jetskis', 'accessories');
+    create type product_category as enum ('performance', 'recreation', 'accessories', 'second_hand');
   end if;
 end$$;
 

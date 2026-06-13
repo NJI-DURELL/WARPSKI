@@ -8,9 +8,9 @@ const COLUMNS = [
     title: 'Shop',
     links: [
       { to: '/catalogue?category=performance', label: 'Performance Jetskis' },
-      { to: '/catalogue?category=recreation', label: 'Recreation Jetskis' },
-      { to: '/accessories', label: 'Accessories' },
-      { to: '/catalogue', label: 'All Jetskis' },
+      { to: '/catalogue?category=recreation',  label: 'Recreation Jetskis' },
+      { to: '/fairly-used',                    label: 'Fairly Used Jetskis' },
+      { to: '/accessories',                    label: 'Accessories' },
     ],
   },
   {
@@ -58,16 +58,29 @@ export function Footer() {
               </a>
             </div>
             <div className="mt-6 flex gap-3">
-              {[Instagram, Facebook, Youtube].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  aria-label="Social link"
-                  className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-mist-muted transition-colors hover:border-flame hover:text-flame"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-mist-muted transition-colors hover:border-flame hover:text-flame"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61590687351146"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-mist-muted transition-colors hover:border-flame hover:text-flame"
+              >
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a
+                href="#"
+                aria-label="YouTube"
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/10 text-mist-muted transition-colors hover:border-flame hover:text-flame"
+              >
+                <Youtube className="h-4 w-4" />
+              </a>
             </div>
           </div>
 

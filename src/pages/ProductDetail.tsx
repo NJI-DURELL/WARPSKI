@@ -7,6 +7,7 @@ import { useCartStore } from '@/store/cartStore';
 import { Button } from '@/components/ui/Button';
 import { PageLoader } from '@/components/ui/Spinner';
 import type { Product } from '@/types';
+import { CATEGORY_LABELS } from '@/types';
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -101,7 +102,7 @@ export function ProductDetail() {
           <div>
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold uppercase tracking-wide text-flame">
-                {product.category}
+                {CATEGORY_LABELS[product.category]}
               </span>
               {product.rating && (
                 <span className="inline-flex items-center gap-1 text-xs text-mist-muted">
@@ -193,6 +194,34 @@ export function ProductDetail() {
                 ))}
               </dl>
             </div>
+
+            {/* Reviews */}
+            {product.reviews && product.reviews.length > 0 && (
+              <div className="mt-10">
+                <h2 className="mb-5 text-lg font-bold text-white">
+                  Buyer Reviews <span className="ml-2 text-sm font-normal text-mist-muted">({product.reviews.length})</span>
+                </h2>
+                <div className="flex flex-col gap-4">
+                  {product.reviews.map((r) => (
+                    <div key={r.author} className="rounded-2xl border border-white/10 bg-ink-800/40 px-6 py-5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-semibold text-white">{r.author}</span>
+                        <div className="flex items-center gap-1">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`h-3.5 w-3.5 ${i < r.rating ? 'fill-flame text-flame' : 'fill-none text-white/20'}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="mt-2 text-sm leading-relaxed text-mist">{r.comment}</p>
+                      <p className="mt-2 text-xs text-mist-muted">{new Date(r.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

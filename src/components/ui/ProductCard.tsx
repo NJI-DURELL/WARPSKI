@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Star } from 'lucide-react';
 import type { Product } from '@/types';
+import { CATEGORY_LABELS } from '@/types';
 import { effectivePrice, formatCurrency } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
 
@@ -37,7 +38,7 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-1 flex items-center justify-between gap-2">
           <span className="text-xs font-semibold uppercase tracking-wide text-flame">
-            {product.category}
+            {CATEGORY_LABELS[product.category]}
           </span>
           {product.rating && (
             <span className="inline-flex items-center gap-1 text-xs text-mist-muted">

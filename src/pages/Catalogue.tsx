@@ -9,9 +9,10 @@ import { Seo } from '@/components/Seo';
 import type { Category, Product } from '@/types';
 
 const FILTERS: { value: Category | 'all'; label: string }[] = [
-  { value: 'all', label: 'All' },
+  { value: 'all',         label: 'All' },
   { value: 'performance', label: 'Performance' },
-  { value: 'recreation', label: 'Recreation' },
+  { value: 'recreation',  label: 'Recreation' },
+  { value: 'second_hand', label: 'Fairly Used' },
   { value: 'accessories', label: 'Accessories' },
 ];
 
