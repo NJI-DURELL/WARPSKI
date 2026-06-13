@@ -170,7 +170,7 @@ const ACCESSORIES: Product[] = [
     description: 'Heavy-duty 600D polyester cover with UV, rain, and dust resistance. Stretch hem and locking strap keep it secure at speed. Fits most 3-up recreation skis.',
     price: 185,
     currency: 'USD',
-    images: [acc('tow-tube')],
+    images: [acc('cover')],
     specs: [
       { label: 'Material',     value: '600D Polyester' },
       { label: 'UV Rating',    value: 'UPF 50+' },
@@ -189,7 +189,7 @@ const ACCESSORIES: Product[] = [
     description: 'Four inflatable PVC fenders in high-visibility orange. Adjustable ropes, salt-resistant valves, and a compact carry bag included. Compatible with all standard dock rails.',
     price: 145,
     currency: 'USD',
-    images: [acc('life-vests')],
+    images: [acc('dock-fenders')],
     specs: [
       { label: 'Quantity',  value: '4 fenders' },
       { label: 'Material',  value: 'Marine PVC' },
@@ -208,7 +208,7 @@ const ACCESSORIES: Product[] = [
     description: 'Stainless folding grapnel anchor (3.3 lb) with 25ft braided nylon rode, carabiner clip, and storage bag. Folds flat for under-seat storage on all models.',
     price: 98,
     currency: 'USD',
-    images: [acc('marine-speakers')],
+    images: [acc('anchor')],
     specs: [
       { label: 'Weight',   value: '3.3 lb' },
       { label: 'Rode',     value: '25 ft nylon' },
@@ -227,7 +227,7 @@ const ACCESSORIES: Product[] = [
     description: '3-step telescoping aluminum ladder that hooks to any standard swim platform. Extends in seconds, folds for storage, and supports up to 300 lb. Rubberised anti-slip steps included.',
     price: 165,
     currency: 'USD',
-    images: [acc('tow-tube')],
+    images: [acc('boarding-ladder')],
     specs: [
       { label: 'Steps',    value: '3-step' },
       { label: 'Material', value: 'Marine Aluminium' },
@@ -246,7 +246,7 @@ const ACCESSORIES: Product[] = [
     description: 'Roll-top 30 L dry bag in bright yellow TPU-coated fabric. Fully submersible to 1 m, padded phone pocket, and a wide-mouth opening that seals in three rolls.',
     price: 78,
     currency: 'USD',
-    images: [acc('life-vests')],
+    images: [acc('dry-bag')],
     specs: [
       { label: 'Volume',   value: '30 L' },
       { label: 'Material', value: 'TPU-coated 500D' },
@@ -265,7 +265,7 @@ const ACCESSORIES: Product[] = [
     description: 'Injection-moulded ABS shell with EPS liner, open-face design, and drain ports that shed water instantly. Adjustable chin strap and five sizing inserts for a custom fit.',
     price: 195,
     currency: 'USD',
-    images: [acc('life-vests')],
+    images: [acc('helmet')],
     specs: [
       { label: 'Shell',         value: 'ABS + EPS' },
       { label: 'Certification', value: 'CE EN 1385' },
@@ -284,7 +284,7 @@ const ACCESSORIES: Product[] = [
     description: 'Premium 3mm neoprene full wetsuit with flatlock seams, back-zip entry, and thermal lining. Reinforced knee pads and pre-bent limbs for a natural riding stance in the water.',
     price: 285,
     currency: 'USD',
-    images: [acc('life-vests')],
+    images: [acc('wetsuit')],
     specs: [
       { label: 'Thickness', value: '3mm Neoprene' },
       { label: 'Seams',     value: 'Flatlock' },
@@ -303,7 +303,7 @@ const ACCESSORIES: Product[] = [
     description: 'UN-approved 5-gallon HDPE jerry can with a no-spill spout, air-vent cap, and integrated comfort handle. Red colour for quick fuel identification. Works with any petrol engine.',
     price: 68,
     currency: 'USD',
-    images: [acc('tow-tube')],
+    images: [acc('fuel-can')],
     specs: [
       { label: 'Capacity', value: '5 gal / 19 L' },
       { label: 'Material', value: 'UN-Approved HDPE' },
@@ -325,7 +325,7 @@ const SECOND_HAND: Product[] = [
     description: 'One careful owner, 42 engine hours. Race seat and T3-R hull are in showroom shape. Full service history included. This is the fastest production ski we\'ve ever sold — now within reach.',
     price: 5800,
     currency: 'USD',
-    images: [ski('34'), ski('20'), ski('32')],
+    images: [ski('20'), ski('34'), ski('32')],
     specs: [
       { label: 'Year',      value: '2022' },
       { label: 'Engine',    value: '325 HP Supercharged' },
@@ -352,7 +352,7 @@ const SECOND_HAND: Product[] = [
     description: 'Two owners, 87 engine hours. Cruise Assist module intact, hull has minor dock rash on port side — cosmetic only. Fresh impeller and annual service done last month.',
     price: 4600,
     currency: 'USD',
-    images: [ski('38'), ski('39'), ski('07')],
+    images: [ski('07'), ski('38'), ski('39')],
     specs: [
       { label: 'Year',      value: '2021' },
       { label: 'Engine',    value: '320 HP Supercharged' },
@@ -379,7 +379,7 @@ const SECOND_HAND: Product[] = [
     description: 'One owner, 31 engine hours — one of the lowest-mileage used skis in our yard. The long-range tank and comfort seat are perfect for family day trips. Comes with the original trailer.',
     price: 3800,
     currency: 'USD',
-    images: [ski('11'), ski('36'), ski('04')],
+    images: [ski('36'), ski('11'), ski('04')],
     specs: [
       { label: 'Year',      value: '2022' },
       { label: 'Engine',    value: '170 HP' },
@@ -406,7 +406,7 @@ const SECOND_HAND: Product[] = [
     description: 'Two owners, 115 engine hours. The Polytec hull is solid and the supercharger was rebuilt at 100 hours by an authorised WarpSki service centre. New battery fitted this season.',
     price: 4200,
     currency: 'USD',
-    images: [ski('01'), ski('35'), ski('19')],
+    images: [ski('35'), ski('01'), ski('19')],
     specs: [
       { label: 'Year',      value: '2020' },
       { label: 'Engine',    value: '320 HP Supercharged' },
@@ -433,7 +433,7 @@ const SECOND_HAND: Product[] = [
     description: 'One owner, 78 engine hours. All electronics — premium audio system, instrumentation and USB charging — are fully working. Minor wear on the seat bolster; hull is clean.',
     price: 3900,
     currency: 'USD',
-    images: [ski('31'), ski('09'), ski('23')],
+    images: [ski('09'), ski('31'), ski('23')],
     specs: [
       { label: 'Year',      value: '2021' },
       { label: 'Engine',    value: '200 HP' },
@@ -460,7 +460,7 @@ const SECOND_HAND: Product[] = [
     description: 'One owner, 55 engine hours. The Deep-V hull shows no damage and the track-tuned suspension is tight. Serviced at the WarpSki dealer at 50 hours — full records available.',
     price: 4800,
     currency: 'USD',
-    images: [ski('39'), ski('38'), ski('33')],
+    images: [ski('33'), ski('39'), ski('38')],
     specs: [
       { label: 'Year',      value: '2022' },
       { label: 'Engine',    value: '300 HP' },
@@ -487,7 +487,7 @@ const SECOND_HAND: Product[] = [
     description: 'Two owners, 210 engine hours. Hull has some UV fade and a couple of gel-coat scuffs from beach launches — all cosmetic. Engine runs perfectly and the tow hook is undamaged. Great starter ski.',
     price: 3500,
     currency: 'USD',
-    images: [ski('03'), ski('11'), ski('15')],
+    images: [ski('15'), ski('03'), ski('11')],
     specs: [
       { label: 'Year',      value: '2019' },
       { label: 'Engine',    value: '130 HP' },
@@ -514,7 +514,7 @@ const SECOND_HAND: Product[] = [
     description: 'One owner, 94 engine hours. The EcoCast audio and Cruise Control are fully functional. Hull is clean with one small repaired chip on the bow. Service completed last season.',
     price: 3600,
     currency: 'USD',
-    images: [ski('04'), ski('14'), ski('22')],
+    images: [ski('14'), ski('04'), ski('22')],
     specs: [
       { label: 'Year',      value: '2020' },
       { label: 'Engine',    value: '170 HP' },
