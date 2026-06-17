@@ -1,10 +1,11 @@
-export type Category = 'performance' | 'recreation' | 'accessories' | 'second_hand';
+export type Category = 'performance' | 'recreation' | 'accessories' | 'parts' | 'second_hand';
 
 export const CATEGORY_LABELS: Record<Category, string> = {
-  performance: 'Performance',
-  recreation: 'Recreation',
-  accessories: 'Accessories',
-  second_hand: 'Fairly Used',
+  performance:  'Performance',
+  recreation:   'Recreation',
+  accessories:  'Accessories',
+  parts:        'Parts',
+  second_hand:  'Fairly Used',
 };
 
 export interface ProductSpec {
