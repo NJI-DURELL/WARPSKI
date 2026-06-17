@@ -865,7 +865,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: 'Iconic Kawasaki power — classic red, ready to ride.',
     description: 'Pre-owned Kawasaki Jetski Ultra 150 in classic red. Located in Waco, TX. Powered by the legendary 1470cc inline-four naturally aspirated engine, famous for reliability and smooth power delivery. Sold as-is — ideal for a weekend restoration or rider who wants a classic on the water.',
-    price: 3500,
+    price: 2000,
     currency: 'USD',
     images: [
       jski('kawasaki-ultra150-right'),
@@ -897,7 +897,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: 'Race-spec performance at a fraction of the new price.',
     description: 'One careful owner, 42 engine hours. Race seat and T3-R hull are in showroom shape. Full service history included. This is the fastest production ski we\'ve ever sold — now within reach.',
-    price: 5800,
+    price: 4000,
     currency: 'USD',
     images: [ski('20'), ski('34'), ski('32')],
     specs: [
@@ -924,7 +924,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: 'Supercharged touring performance, ready to ride.',
     description: 'Two owners, 87 engine hours. Cruise Assist module intact, hull has minor dock rash on port side — cosmetic only. Fresh impeller and annual service done last month.',
-    price: 4600,
+    price: 4000,
     currency: 'USD',
     images: [ski('07'), ski('38'), ski('39')],
     specs: [
@@ -978,7 +978,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: '320 HP supercharged icon — priced to move.',
     description: 'Two owners, 115 engine hours. The Polytec hull is solid and the supercharger was rebuilt at 100 hours by an authorised WarpSki service centre. New battery fitted this season.',
-    price: 4200,
+    price: 4000,
     currency: 'USD',
     images: [ski('35'), ski('01'), ski('19')],
     specs: [
@@ -1032,7 +1032,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: 'Track-tuned Deep-V hull in near-new condition.',
     description: 'One owner, 55 engine hours. The Deep-V hull shows no damage and the track-tuned suspension is tight. Serviced at the WarpSki dealer at 50 hours — full records available.',
-    price: 4800,
+    price: 4000,
     currency: 'USD',
     images: [ski('33'), ski('39'), ski('38')],
     specs: [
