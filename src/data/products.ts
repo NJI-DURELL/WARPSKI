@@ -862,7 +862,7 @@ const PARTS: Product[] = [
     description: 'OEM Yamaha GP 1300R instrument cluster from a 2003 model. Includes the full wiring harness with all connectors. Displays speed (mph/km/h), RPM (×1000), fuel level, voltage, and warning indicators. Good used condition.',
     price: 650,
     currency: 'USD',
-    images: [part('yamaha-gp1300r-display-closeup'), part('yamaha-gp1300r-display')],
+    images: [part('yamaha-gp1300r-display-closeup'), part('yamaha-gp1300r-display-mounted'), part('yamaha-gp1300r-display-front'), part('yamaha-gp1300r-display')],
     specs: [
       { label: 'Brand',    value: 'Yamaha' },
       { label: 'Fit',      value: 'GP 1300R (2003)' },
