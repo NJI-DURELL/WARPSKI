@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, Phone, Send } from 'lucide-react';
+import { CheckCircle2, Phone, Send, Truck } from 'lucide-react';
 import { orderSchema, type OrderInput } from '@/lib/validations';
 import { fieldErrors, formatCurrency, sanitizeError, effectivePrice } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
@@ -8,11 +8,16 @@ import { Button } from '@/components/ui/Button';
 import { Seo } from '@/components/Seo';
 import { ORDER_ENDPOINT, CONTACT } from '@/config';
 
-const FIELDS: { name: keyof OrderInput; label: string; placeholder: string; type?: string; autoComplete?: string; span?: boolean }[] = [
+type FieldDef = { name: keyof OrderInput; label: string; placeholder: string; type?: string; autoComplete?: string; span?: boolean };
+
+const CONTACT_FIELDS: FieldDef[] = [
   { name: 'fullName', label: 'Full name', placeholder: 'Jane Rider', autoComplete: 'name', span: true },
   { name: 'email', label: 'Email', placeholder: 'you@example.com', type: 'email', autoComplete: 'email' },
   { name: 'phone', label: 'Phone', placeholder: '+1 555 0100', autoComplete: 'tel' },
-  { name: 'address', label: 'Address', placeholder: '123 Marina Way', autoComplete: 'address-line1', span: true },
+];
+
+const SHIPPING_FIELDS: FieldDef[] = [
+  { name: 'address', label: 'Street address', placeholder: '123 Marina Way', autoComplete: 'address-line1', span: true },
   { name: 'city', label: 'City', placeholder: 'San Diego', autoComplete: 'address-level2' },
   { name: 'postalCode', label: 'Postal code', placeholder: '92101', autoComplete: 'postal-code' },
   { name: 'country', label: 'Country', placeholder: 'United States', autoComplete: 'country-name', span: true },
@@ -118,34 +123,65 @@ export function Checkout() {
         </p>
 
         <form onSubmit={handleSubmit} noValidate className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
-          <div className="space-y-6">
-            <h2 className="text-lg font-bold text-white">Your details</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {FIELDS.map((f) => (
-                <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
-                  <label htmlFor={f.name} className="label">{f.label}</label>
-                  <input
-                    id={f.name}
-                    name={f.name}
-                    type={f.type ?? 'text'}
-                    placeholder={f.placeholder}
-                    autoComplete={f.autoComplete}
-                    className="field"
-                    aria-invalid={Boolean(errors[f.name])}
+          <div className="space-y-10">
+            {/* Contact info */}
+            <div className="space-y-4">
+              <h2 className="text-lg font-bold text-white">Your details</h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {CONTACT_FIELDS.map((f) => (
+                  <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
+                    <label htmlFor={f.name} className="label">{f.label}</label>
+                    <input
+                      id={f.name}
+                      name={f.name}
+                      type={f.type ?? 'text'}
+                      placeholder={f.placeholder}
+                      autoComplete={f.autoComplete}
+                      className="field"
+                      aria-invalid={Boolean(errors[f.name])}
+                    />
+                    {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Shipping details */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-bold text-white">Shipping details</h2>
+                <span className="flex items-center gap-1.5 rounded-full bg-flame/10 px-3 py-1 text-xs font-semibold text-flame">
+                  <Truck className="h-3.5 w-3.5" /> Free shipping
+                </span>
+              </div>
+              <p className="text-sm text-mist-muted">Enter the address where you'd like your order delivered. Shipping is on us.</p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {SHIPPING_FIELDS.map((f) => (
+                  <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
+                    <label htmlFor={f.name} className="label">{f.label}</label>
+                    <input
+                      id={f.name}
+                      name={f.name}
+                      type="text"
+                      placeholder={f.placeholder}
+                      autoComplete={f.autoComplete}
+                      className="field"
+                      aria-invalid={Boolean(errors[f.name])}
+                    />
+                    {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+                  </div>
+                ))}
+                <div className="sm:col-span-2">
+                  <label htmlFor="notes" className="label">Notes (optional)</label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    rows={3}
+                    className="field resize-none"
+                    placeholder="Delivery instructions, gate code, preferred time…"
                   />
-                  {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+                  {errors.notes && <p className="field-error">{errors.notes}</p>}
                 </div>
-              ))}
-              <div className="sm:col-span-2">
-                <label htmlFor="notes" className="label">Notes (optional)</label>
-                <textarea
-                  id="notes"
-                  name="notes"
-                  rows={3}
-                  className="field resize-none"
-                  placeholder="Preferred colour, delivery questions, trade-in…"
-                />
-                {errors.notes && <p className="field-error">{errors.notes}</p>}
               </div>
             </div>
 
