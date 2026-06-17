@@ -14,7 +14,7 @@ export const SITE = {
 } as const;
 
 export const CONTACT = {
-  email: 'tiakolucia15@gmail.com',
+  email: 'warpski.shop@gmail.com',
   phone: '+1 (541) 550-8953',
   phoneHref: '+15415508953',
   address: 'Marina Bay Boulevard, United States',
