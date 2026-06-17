@@ -17,7 +17,6 @@ export const CONTACT = {
   email: 'warpski.shop@gmail.com',
   phone: '+1 (541) 550-8953',
   phoneHref: '+15415508953',
-  address: 'Marina Bay Boulevard, United States',
 } as const;
 
 /**

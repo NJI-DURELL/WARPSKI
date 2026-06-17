@@ -107,7 +107,7 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
           </p>
-          <p>{CONTACT.address}</p>
+
         </div>
       </div>
     </footer>

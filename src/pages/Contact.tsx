@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { Mail, Phone, Send } from 'lucide-react';
 import { contactSchema } from '@/lib/validations';
 import { fieldErrors, sanitizeError } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
@@ -7,7 +7,6 @@ import { Seo } from '@/components/Seo';
 import { ORDER_ENDPOINT, CONTACT } from '@/config';
 
 const INFO = [
-  { icon: MapPin, label: 'Showroom', value: CONTACT.address, href: undefined },
   { icon: Phone, label: 'Phone', value: CONTACT.phone, href: `tel:${CONTACT.phoneHref}` },
   { icon: Mail, label: 'Email', value: CONTACT.email, href: `mailto:${CONTACT.email}` },
 ];
