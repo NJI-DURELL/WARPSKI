@@ -26,9 +26,7 @@ export function Checkout() {
   const [serverError, setServerError] = useState('');
   const [done, setDone] = useState(false);
 
-  const shipping = subtotal > 0 && subtotal < 1000 ? 49 : 0;
-  const tax = Math.round(subtotal * 0.08);
-  const total = subtotal + shipping + tax;
+  const total = subtotal;
 
   if (items.length === 0 && !done) {
     return (
@@ -89,8 +87,6 @@ export function Checkout() {
       Notes: parsed.data.notes ?? '—',
       Order: orderLines,
       Subtotal: formatCurrency(subtotal),
-      Shipping: shipping === 0 ? 'Free' : formatCurrency(shipping),
-      Tax: formatCurrency(tax),
       Total: formatCurrency(total),
     };
 
@@ -176,8 +172,6 @@ export function Checkout() {
             </div>
             <dl className="mt-5 space-y-3 border-t border-white/10 pt-5 text-sm">
               <div className="flex justify-between"><dt className="text-mist-muted">Subtotal</dt><dd className="text-white">{formatCurrency(subtotal)}</dd></div>
-              <div className="flex justify-between"><dt className="text-mist-muted">Shipping</dt><dd className="text-white">{shipping === 0 ? 'Free' : formatCurrency(shipping)}</dd></div>
-              <div className="flex justify-between"><dt className="text-mist-muted">Tax</dt><dd className="text-white">{formatCurrency(tax)}</dd></div>
               <div className="flex justify-between border-t border-white/10 pt-3 text-base">
                 <dt className="font-bold text-white">Total</dt>
                 <dd className="font-display text-xl font-black text-flame">{formatCurrency(total)}</dd>
