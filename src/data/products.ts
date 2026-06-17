@@ -853,6 +853,27 @@ const PARTS: Product[] = [
     in_stock: true,
     rating: 4.4,
   },
+  {
+    id: 'part-yamaha-gp1300r-display',
+    slug: 'yamaha-gp1300r-instrument-display',
+    name: 'Yamaha GP 1300R Instrument Display (2003)',
+    category: 'parts',
+    tagline: 'OEM Yamaha dash cluster — speedo, tach, fuel and volt.',
+    description: 'OEM Yamaha GP 1300R instrument cluster from a 2003 model. Includes the full wiring harness with all connectors. Displays speed (mph/km/h), RPM (×1000), fuel level, voltage, and warning indicators. Good used condition.',
+    price: 650,
+    currency: 'USD',
+    images: [part('yamaha-gp1300r-display')],
+    specs: [
+      { label: 'Brand',    value: 'Yamaha' },
+      { label: 'Fit',      value: 'GP 1300R (2003)' },
+      { label: 'Includes', value: 'Cluster + wiring harness' },
+      { label: 'Displays', value: 'Speed / RPM / Fuel / Volt' },
+      { label: 'Condition', value: 'Good used' },
+    ],
+    highlights: ['OEM Yamaha', 'Full Wiring Harness', 'GP 1300R Fit', '2003 Model'],
+    in_stock: true,
+    rating: 4.5,
+  },
 ];
 
 // ── Fairly Used (Second Hand) ───────────────────────────────────────────────
