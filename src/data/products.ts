@@ -924,7 +924,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: 'Supercharged touring performance, ready to ride.',
     description: 'Two owners, 87 engine hours. Cruise Assist module intact, hull has minor dock rash on port side — cosmetic only. Fresh impeller and annual service done last month.',
-    price: 4000,
+    price: 3750,
     currency: 'USD',
     images: [ski('07'), ski('38'), ski('39')],
     specs: [
@@ -978,7 +978,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: '320 HP supercharged icon — priced to move.',
     description: 'Two owners, 115 engine hours. The Polytec hull is solid and the supercharger was rebuilt at 100 hours by an authorised WarpSki service centre. New battery fitted this season.',
-    price: 4000,
+    price: 3550,
     currency: 'USD',
     images: [ski('35'), ski('01'), ski('19')],
     specs: [
@@ -1032,7 +1032,7 @@ const SECOND_HAND: Product[] = [
     category: 'second_hand',
     tagline: 'Track-tuned Deep-V hull in near-new condition.',
     description: 'One owner, 55 engine hours. The Deep-V hull shows no damage and the track-tuned suspension is tight. Serviced at the WarpSki dealer at 50 hours — full records available.',
-    price: 4000,
+    price: 3900,
     currency: 'USD',
     images: [ski('33'), ski('39'), ski('38')],
     specs: [
