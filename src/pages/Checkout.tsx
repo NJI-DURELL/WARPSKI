@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { CheckCircle2, Phone, Send, Truck } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, ArrowRight, CheckCircle2, Phone, Truck } from 'lucide-react';
+import { WhopCheckoutEmbed } from '@whop/checkout/react';
 import { orderSchema, type OrderInput } from '@/lib/validations';
-import { fieldErrors, formatCurrency, sanitizeError, effectivePrice } from '@/lib/utils';
+import { fieldErrors, formatCurrency } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
 import { Button } from '@/components/ui/Button';
 import { Seo } from '@/components/Seo';
-import { ORDER_ENDPOINT, CONTACT } from '@/config';
+import { WHOP, CONTACT } from '@/config';
 
 type FieldDef = { name: keyof OrderInput; label: string; placeholder: string; type?: string; autoComplete?: string; span?: boolean };
 
@@ -27,13 +28,17 @@ export function Checkout() {
   const { items, clear } = useCartStore();
   const subtotal = useCartStore((s) => s.subtotal());
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [serverError, setServerError] = useState('');
+  const [step, setStep] = useState<1 | 2>(1);
+  const [formData, setFormData] = useState<OrderInput | null>(null);
   const [done, setDone] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  // If redirected from an external Whop flow
+  const isComplete = done || searchParams.get('status') === 'complete';
 
   const total = subtotal;
 
-  if (items.length === 0 && !done) {
+  if (items.length === 0 && !isComplete) {
     return (
       <div className="container-px flex min-h-[70vh] flex-col items-center justify-center pt-28 text-center">
         <Seo title="Checkout" noindex />
@@ -43,27 +48,25 @@ export function Checkout() {
     );
   }
 
-  if (done) {
+  if (isComplete) {
     return (
       <div className="container-px flex min-h-[80vh] flex-col items-center justify-center pt-28 text-center">
         <Seo title="Order Received" noindex />
         <CheckCircle2 className="h-16 w-16 text-flame" />
-        <h1 className="mt-6 text-4xl font-black">Order request received</h1>
+        <h1 className="mt-6 text-4xl font-black">Payment successful!</h1>
         <p className="mt-3 max-w-md text-mist-muted">
-          Thanks! Your request has been sent to our team. We&apos;ll contact you shortly to confirm
-          availability, arrange secure payment, and schedule delivery.
+          Thanks for your order. Your transaction was completed successfully. We&apos;ll contact you shortly to arrange your Jetski delivery.
         </p>
         <a href={`tel:${CONTACT.phoneHref}`} className="mt-6 inline-flex items-center gap-2 text-flame">
-          <Phone className="h-4 w-4" /> Prefer to talk? {CONTACT.phone}
+          <Phone className="h-4 w-4" /> Have questions? {CONTACT.phone}
         </a>
         <Link to="/" className="btn-flame mt-8">Back to Home</Link>
       </div>
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setServerError('');
     const form = new FormData(e.currentTarget);
     const raw = Object.fromEntries(form.entries());
     const parsed = orderSchema.safeParse(raw);
@@ -76,126 +79,132 @@ export function Checkout() {
       return;
     }
     setErrors({});
-    setSubmitting(true);
-
-    const orderLines = items
-      .map((i) => `${i.quantity}x ${i.product.name} — ${formatCurrency(effectivePrice(i.product) * i.quantity)}`)
-      .join('\n');
-
-    const payload = {
-      _subject: `New WarpSki order — ${parsed.data.fullName} (${formatCurrency(total)})`,
-      _template: 'table',
-      Customer: parsed.data.fullName,
-      Email: parsed.data.email,
-      Phone: parsed.data.phone,
-      Address: `${parsed.data.address}, ${parsed.data.city} ${parsed.data.postalCode}, ${parsed.data.country}`,
-      Notes: parsed.data.notes ?? '—',
-      Order: orderLines,
-      Subtotal: formatCurrency(subtotal),
-      Total: formatCurrency(total),
-    };
-
-    try {
-      const res = await fetch(ORDER_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error('Could not send your order. Please try again or call us.');
-      clear();
-      setDone(true);
-      window.scrollTo({ top: 0 });
-    } catch (err) {
-      setServerError(sanitizeError(err, 'Could not send your order. Please try again or call us.'));
-    } finally {
-      setSubmitting(false);
-    }
+    setFormData(parsed.data);
+    setStep(2);
+    window.scrollTo({ top: 0 });
   };
 
   return (
     <div className="pt-28">
       <Seo title="Checkout" noindex />
       <div className="container-px py-10">
-        <h1 className="text-4xl font-black sm:text-5xl">Request your order</h1>
+        <h1 className="text-4xl font-black sm:text-5xl">Complete your order</h1>
         <p className="mt-3 max-w-xl text-mist-muted">
-          Secure online payment is coming soon. Submit your details and our team will reach out to
-          confirm your jetski, arrange payment, and schedule delivery — usually within one business day.
+          {step === 1
+            ? "Enter your contact and shipping details to proceed to secure payment."
+            : "Complete your payment securely via Whop."}
         </p>
 
-        <form onSubmit={handleSubmit} noValidate className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
           <div className="space-y-10">
-            {/* Contact info */}
-            <div className="space-y-4">
-              <h2 className="text-lg font-bold text-white">Your details</h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {CONTACT_FIELDS.map((f) => (
-                  <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
-                    <label htmlFor={f.name} className="label">{f.label}</label>
-                    <input
-                      id={f.name}
-                      name={f.name}
-                      type={f.type ?? 'text'}
-                      placeholder={f.placeholder}
-                      autoComplete={f.autoComplete}
-                      className="field"
-                      aria-invalid={Boolean(errors[f.name])}
-                    />
-                    {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+            {step === 1 ? (
+              <form id="checkout-form" onSubmit={handleSubmit} noValidate className="space-y-10">
+                {/* Contact info */}
+                <div className="space-y-4">
+                  <h2 className="text-lg font-bold text-white">Your details</h2>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {CONTACT_FIELDS.map((f) => (
+                      <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
+                        <label htmlFor={f.name} className="label">{f.label}</label>
+                        <input
+                          id={f.name}
+                          name={f.name}
+                          type={f.type ?? 'text'}
+                          defaultValue={formData?.[f.name]}
+                          placeholder={f.placeholder}
+                          autoComplete={f.autoComplete}
+                          className="field"
+                          aria-invalid={Boolean(errors[f.name])}
+                        />
+                        {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-            {/* Shipping details */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold text-white">Shipping details</h2>
-                <span className="flex items-center gap-1.5 rounded-full bg-flame/10 px-3 py-1 text-xs font-semibold text-flame">
-                  <Truck className="h-3.5 w-3.5" /> Free shipping
-                </span>
-              </div>
-              <p className="text-sm text-mist-muted">Enter the address where you'd like your order delivered. Shipping is on us.</p>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {SHIPPING_FIELDS.map((f) => (
-                  <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
-                    <label htmlFor={f.name} className="label">{f.label}</label>
-                    <input
-                      id={f.name}
-                      name={f.name}
-                      type="text"
-                      placeholder={f.placeholder}
-                      autoComplete={f.autoComplete}
-                      className="field"
-                      aria-invalid={Boolean(errors[f.name])}
-                    />
-                    {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+                {/* Shipping details */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-bold text-white">Shipping details</h2>
+                    <span className="flex items-center gap-1.5 rounded-full bg-flame/10 px-3 py-1 text-xs font-semibold text-flame">
+                      <Truck className="h-3.5 w-3.5" /> Free shipping
+                    </span>
                   </div>
-                ))}
-                <div className="sm:col-span-2">
-                  <label htmlFor="notes" className="label">Notes (optional)</label>
-                  <textarea
-                    id="notes"
-                    name="notes"
-                    rows={3}
-                    className="field resize-none"
-                    placeholder="Delivery instructions, gate code, preferred time…"
+                  <p className="text-sm text-mist-muted">Enter the address where you'd like your order delivered. Shipping is on us.</p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {SHIPPING_FIELDS.map((f) => (
+                      <div key={f.name} className={f.span ? 'sm:col-span-2' : ''}>
+                        <label htmlFor={f.name} className="label">{f.label}</label>
+                        <input
+                          id={f.name}
+                          name={f.name}
+                          type="text"
+                          defaultValue={formData?.[f.name]}
+                          placeholder={f.placeholder}
+                          autoComplete={f.autoComplete}
+                          className="field"
+                          aria-invalid={Boolean(errors[f.name])}
+                        />
+                        {errors[f.name] && <p className="field-error">{errors[f.name]}</p>}
+                      </div>
+                    ))}
+                    <div className="sm:col-span-2">
+                      <label htmlFor="notes" className="label">Notes (optional)</label>
+                      <textarea
+                        id="notes"
+                        name="notes"
+                        rows={3}
+                        defaultValue={formData?.notes}
+                        className="field resize-none"
+                        placeholder="Delivery instructions, gate code, preferred time…"
+                      />
+                      {errors.notes && <p className="field-error">{errors.notes}</p>}
+                    </div>
+                  </div>
+                </div>
+              </form>
+            ) : (
+              <div className="space-y-6">
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-mist-muted hover:text-white transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4" /> Back to details
+                </button>
+                <div className="min-h-[500px] overflow-hidden rounded-2xl border border-white/10 bg-[#0f0f11]">
+                  <WhopCheckoutEmbed
+                    planId={WHOP.planId}
+                    returnUrl={WHOP.returnUrl}
+                    theme="dark"
+                    themeOptions={{ accentColor: '#ff6423', borderRadius: 12, backgroundColor: '#0f0f11' }}
+                    hideEmail
+                    hideAddressForm
+                    prefill={{
+                      email: formData?.email,
+                      address: {
+                        name: formData?.fullName,
+                        line1: formData?.address,
+                        city: formData?.city,
+                        postalCode: formData?.postalCode,
+                        country: formData?.country,
+                      }
+                    }}
+                    onComplete={() => {
+                      clear();
+                      setDone(true);
+                      window.scrollTo({ top: 0 });
+                    }}
                   />
-                  {errors.notes && <p className="field-error">{errors.notes}</p>}
                 </div>
               </div>
-            </div>
-
-            {serverError && (
-              <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-400">
-                {serverError}
-              </p>
             )}
           </div>
 
           {/* Summary */}
           <aside className="h-fit rounded-2xl border border-white/10 bg-ink-800/40 p-6 lg:sticky lg:top-28">
             <h2 className="text-lg font-bold text-white">Order Summary</h2>
-            <div className="mt-5 max-h-60 space-y-3 overflow-y-auto">
+            <div className="mt-5 max-h-60 space-y-3 overflow-y-auto pr-2">
               {items.map(({ product, quantity }) => (
                 <div key={product.id} className="flex items-center gap-3">
                   <img src={product.images[0]} alt={product.name} loading="lazy" className="h-12 w-12 rounded-lg object-cover" />
@@ -213,14 +222,16 @@ export function Checkout() {
                 <dd className="font-display text-xl font-black text-flame">{formatCurrency(total)}</dd>
               </div>
             </dl>
-            <Button type="submit" loading={submitting} className="mt-6 w-full">
-              <Send className="h-4 w-4" /> Submit Order Request
-            </Button>
+            {step === 1 && (
+              <Button form="checkout-form" type="submit" className="mt-6 w-full group">
+                Continue to Payment <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            )}
             <p className="mt-3 text-center text-xs text-mist-muted">
-              No payment taken now. We&apos;ll contact you to complete your order.
+              {step === 1 ? 'Next step: Secure payment via Whop.' : 'Complete your payment securely.'}
             </p>
           </aside>
-        </form>
+        </div>
       </div>
     </div>
   );

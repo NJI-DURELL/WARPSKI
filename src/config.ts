@@ -25,3 +25,8 @@ export const CONTACT = {
  * submission triggers a one-time confirmation email to CONTACT.email.
  */
 export const ORDER_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT.email}`;
+
+export const WHOP = {
+  planId: import.meta.env.VITE_WHOP_PLAN_ID || 'plan_XXXXXXXXX',
+  returnUrl: `${SITE.url}/checkout?status=complete`,
+} as const;
